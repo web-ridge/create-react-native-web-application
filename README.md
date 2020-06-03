@@ -7,3 +7,7 @@ Used library for React-Native: React Native CLI
 
 Follow instructions on and click the 'React Native CLI Quickstart'
 https://reactnative.dev/docs/environment-setup
+
+## Tips
+Install the Prettier extension in Visual Code
+Set {enableHermes: true} in build.gradle since it will give you a lot faster app on Android
