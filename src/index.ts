@@ -130,7 +130,7 @@ async function app() {
   const templateDir = path.dirname(require.main.filename) + '/template';
   // console.log({ templateDir });
   fs.copySync(templateDir, appName);
-  fs.copySync(
+  fs.copyFileSync(
     appNameWeb + '/src/serviceWorker.js',
     appName + '/src/serviceWorker.js'
   );
