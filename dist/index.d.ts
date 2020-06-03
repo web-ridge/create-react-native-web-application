@@ -15,6 +15,7 @@ declare function installPackagesAdvanced(packages: PackageType[], directory: str
 declare function createReactNativeApp(appName: string): Promise<any>;
 declare function createReactScriptsApp(appName: string): Promise<any>;
 declare function logSpaced(args: any): void;
+declare function removeSuffix(str: string, suffix: string): string;
 declare function excludeObjectKeys(object: object, ignoredKeys: string[]): object;
 declare function replaceValuesOfObject(object: object, search: string, replace: string): object;
 declare function prefixObject(object: object, prefix: string): object;

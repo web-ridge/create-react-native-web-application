@@ -128,7 +128,7 @@ async function app() {
   // copy template files
 
   const templateDir = path.dirname(require.main.filename) + '/template';
-  // console.log({ templateDir });
+  logSpaced({ templateDir });
   fs.copySync(templateDir, appName);
 
   fs.copySync(
@@ -231,6 +231,10 @@ function logSpaced(args) {
   console.log('');
   console.log(LogColor, args);
   console.log('');
+}
+
+function removeSuffix(str: string, suffix: string) {
+  return str.substring(0, str.indexOf(suffix));
 }
 
 function excludeObjectKeys(object: object, ignoredKeys: string[]): object {
