@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 interface PackageType {
     name: string;
     version?: string;
