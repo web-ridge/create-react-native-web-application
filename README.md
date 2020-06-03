@@ -45,6 +45,7 @@ yarn web:eject
 - Enable Hermes in build.gradle since it will give you a ~ 30% faster app on Android
 
 ```
+// build.gradle in your Android folder
 project.ext.react = [
   enableHermes: false, // clean and rebuild if changing
 ]
@@ -53,6 +54,7 @@ project.ext.react = [
 to
 
 ```
+// build.gradle in your Android folder
 project.ext.react = [
   enableHermes: true, // clean and rebuild if changing
 ]
