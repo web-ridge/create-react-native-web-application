@@ -85,6 +85,7 @@ function app() {
             },
             { name: '@types/react-native', isDev: true },
             { name: 'typescript', isDev: true },
+            { name: 'babel-plugin-import', isDev: true },
         ], appName);
         const templateDir = path.dirname(require.main.filename) + '/template';
         console.log({ templateDir });
