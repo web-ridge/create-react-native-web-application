@@ -1,0 +1,19 @@
+{
+  "name": "create-react-native-web-app",
+  "version": "0.0.1",
+  "description": "react-ridge-state is a very simple global state management library for React and React Native",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/web-ridge/react-ridge-state",
+  "license": "MIT",
+  "readme": "README.md",
+  "dependencies": {
+    "fs-extra": "^9.0.0",
+    "node-fs-extra": "^0.8.2",
+    "yargs": "^15.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.9",
+    "typescript": "^3.9.3"
+  }
+}
