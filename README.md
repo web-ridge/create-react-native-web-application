@@ -31,7 +31,7 @@ yarn lint
 
 ### Web commands
 
-````
+```
 yarn web
 yarn web:build
 yarn web:test
@@ -39,6 +39,7 @@ yarn web:eject
 ```
 
 ## Tips
+
 - Look up React Native Docs
 - Install the Prettier extension in Visual Code
 - Enable Hermes in build.gradle since it will give you a ~ 30% faster app on Android
@@ -55,7 +56,7 @@ to
 project.ext.react = [
 enableHermes: true, // clean and rebuild if changing
 ]
-````
+```
 
 ## How can I use really native packages but sometimes else on the web version
 
