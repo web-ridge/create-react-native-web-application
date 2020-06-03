@@ -15,7 +15,11 @@ export default function App() {
   const [backgroundColor, setState] = React.useState<string>('#1275e6');
   return (
     <>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
       <View style={[styles.root, { backgroundColor }]}>
         <View style={[styles.content, width > 900 && styles.contenBig]}>
           <Text style={styles.title}>Are you ready for React Native Web?</Text>
