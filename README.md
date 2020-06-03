@@ -13,6 +13,8 @@ You need to have React Native installed :) (Not Expo)
 Follow instructions on and click the 'React Native CLI Quickstart'  
 https://reactnative.dev/docs/environment-setup
 
+And then you need to run this command (myapp can be something you desire)
+
 ```
 npx create-react-native-web-application --name myappname
 ```
@@ -41,6 +43,8 @@ yarn web:eject
 ## Tips
 
 - Look up React Native Docs
+- Look up https://github.com/necolas/react-native-web
+- Look for web support in React Native packages
 - Install the Prettier extension in Visual Code
 - Enable Hermes in build.gradle since it will give you a ~ 30% faster app on Android
 
