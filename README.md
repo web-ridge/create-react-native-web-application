@@ -21,7 +21,7 @@ npx create-react-native-web-application --name myappname
 
 ### Native commands
 
-````
+```
 yarn android
 yarn ios
 yarn start
@@ -32,12 +32,10 @@ yarn lint
 ### Web commands
 
 ````
-
 yarn web
 yarn web:build
 yarn web:test
 yarn web:eject
-
 ```
 
 ## Tips
@@ -46,21 +44,17 @@ yarn web:eject
 - Enable Hermes in build.gradle since it will give you a ~ 30% faster app on Android
 
 ```
-
 project.ext.react = [
 enableHermes: false, // clean and rebuild if changing
 ]
-
 ```
 
 to
 
 ```
-
 project.ext.react = [
 enableHermes: true, // clean and rebuild if changing
 ]
-
 ````
 
 ## How can I use really native packages but sometimes else on the web version
@@ -72,7 +66,7 @@ Create a file package-name.ts
 ```typescript
 import NativeModule from 'react-native-module-without-web-support';
 export default NativeModule;
-````
+```
 
 Create a file package-name.web.ts
 
