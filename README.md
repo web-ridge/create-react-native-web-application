@@ -1,4 +1,4 @@
-This package will help you in creating a React-Native app which runs on the web with React Native Web (used in the Twitter webapp) while using the best tools of both worlds. You'll always be using the latest version of both libraries. This program only merges some configs to give you a fast start :)
+This package will help you in creating a React-Native app which runs on the web with React Native Web (used in the Twitter webapp: https://github.com/necolas/react-native-web) while using the best tools of both worlds. You'll always be using the latest version of both libraries. This program only merges some configs to give you a fast start :)
 
 This package will help you in creating a React-Native app which runs on the web with React Native Web while using the best tools of both worlds so you can have one codebase for Android, iOS and Web.
 
