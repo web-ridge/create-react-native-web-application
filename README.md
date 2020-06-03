@@ -85,5 +85,5 @@ export default function YourImplemenation() {}
 
 We will publish more open-source in the fute also a cross platform abstraction for React Native Navigation so consider following us on Github or Twitter :-)
 
-https://twitter.com/web_ridge
+https://twitter.com/web_ridge  
 https://twitter.com/RichardLindhout
