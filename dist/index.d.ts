@@ -1,15 +1,16 @@
 interface PackageType {
     name: string;
-    version: string;
-    isDev: boolean;
+    version?: string;
+    isDev?: boolean;
 }
-declare const FgGreen = "\u001B[32m";
+declare const LogColor = "\u001B[32m";
 declare const spawn: any;
 declare const fs: any;
 declare const path: any;
 declare const argv: any;
 declare function app(): Promise<void>;
-declare function installPackages(packages: PackageType[], directory: string): Promise<any>;
+declare function installPackages(packages: PackageType[], directory: string): Promise<void>;
+declare function installPackagesAdvanced(packages: PackageType[], directory: string, dev: boolean): Promise<any>;
 declare function createReactNativeApp(appName: string): Promise<any>;
 declare function createReactScriptsApp(appName: string): Promise<any>;
 declare function logSpaced(args: any): void;

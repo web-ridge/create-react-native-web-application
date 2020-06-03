@@ -1,9 +1,9 @@
 interface PackageType {
   name: string;
-  version: string;
-  isDev: boolean;
+  version?: string;
+  isDev?: boolean;
 }
-const FgGreen = '\x1b[32m';
+const LogColor = '\x1b[32m';
 
 const { spawn } = require('child_process');
 const fs = require('fs-extra');
@@ -27,9 +27,14 @@ app();
 
 async function app() {
   const appName = argv.name;
-  const appNameWeb = appName + '-web';
+  const appNameWeb = appName + '-web-will-be-deleted-afterwards';
 
-  logSpaced(`Creating ${appName}`);
+  logSpaced(`
+  Creating ${appName}, brought to you by webRidge.
+
+  Please wait till everything is finished :)
+  
+  `);
 
   try {
     await Promise.all([
@@ -60,17 +65,28 @@ async function app() {
   const reactNativePackageFile = fs.readFileSync(reactNativePackagePath);
   const reactNativePackageJSON = JSON.parse(reactNativePackageFile);
 
+  let webScripts = replaceValuesOfObject(
+    prefixObject(webPackageJSON.scripts, 'web:'),
+    'react-scripts',
+    'react-app-rewired'
+  );
+
+  // more like yarn android, yarn ios, yarn web
+  //@ts-ignore
+  let webStartCommand = webScripts['web:start'];
+  delete webScripts['web:start'];
+  //@ts-ignore
+  webScripts.web = webStartCommand;
+
+  console.log({ webScripts });
+
   const mergedPackageJSON = {
     ...reactNativePackageJSON,
     // we're gonna merge scripts and dependencies ourself :)
-    ...excludeObjectKeys(webPackageJSON, ['dependencies', 'scripts']),
+    ...excludeObjectKeys(webPackageJSON, ['dependencies', 'scripts', 'name']),
     scripts: {
       ...reactNativePackageJSON.scripts,
-      ...replaceValuesOfObject(
-        prefixObject(webPackageJSON, 'web:'),
-        'react-app-scripts',
-        'react-app-rewired'
-      ),
+      ...webScripts,
     },
   };
 
@@ -83,30 +99,25 @@ async function app() {
       ...webDependencies,
       {
         name: 'react-native-web',
-        version: 'latest',
-        isDev: false,
       },
       {
         name: 'react-app-rewired',
-        version: 'latest',
         isDev: true,
       },
       {
         name: 'customize-cra',
-        version: 'latest',
         isDev: true,
       },
       {
         name: 'customize-cra-react-refresh',
-        version: 'latest',
         isDev: true,
       },
       {
         name: '@types/react',
-        version: 'latest',
         isDev: true,
       },
-      { name: '@types/react-native', version: 'latest', isDev: true },
+      { name: '@types/react-native', isDev: true },
+      { name: 'typescript', isDev: true },
     ],
     appName
   );
@@ -116,33 +127,51 @@ async function app() {
   const templateDir = path.dirname(require.main.filename) + '/template';
   console.log({ templateDir });
   fs.copySync(templateDir, appName);
+  fs.copySync(appNameWeb + '/public', appName + '/public');
   fs.unlinkSync(appName + '/App.js');
+  // fs.removeSync(appNameWeb);
 
   logSpaced("Yeah!! We're done!");
   logSpaced(`
-  Start your app with
-  
-        yarn android
-        yarn ios
-        yarn web
+  Start your app with by going to the created directory: 'cd ${appName}'
+
+    yarn android
+    yarn ios
+    yarn web
   `);
 }
 
-async function installPackages(
+async function installPackages(packages: PackageType[], directory: string) {
+  await installPackagesAdvanced(
+    packages.filter((package) => package.isDev === true),
+    directory,
+    true
+  );
+  await installPackagesAdvanced(
+    packages.filter((package) => !package.isDev),
+    directory,
+    false
+  );
+}
+async function installPackagesAdvanced(
   packages: PackageType[],
-  directory: string
+  directory: string,
+  dev: boolean
 ): Promise<any> {
   return new Promise((resolve, reject) => {
+    const joinedPackages = packages.map(
+      (package) => package.name + (package.version ? `@${package.version}` : ``)
+    );
+    console.log({ joinedPackages });
     const createReactNativeProcess = spawn(
       'yarn',
       [
         '--cwd',
         directory,
         'add',
-        packages
-          .map((package) => `${package.name}@${package.version}`)
-          .join(' '),
-      ],
+        ...joinedPackages,
+        dev ? '--dev' : undefined,
+      ].filter((n) => !!n),
       { stdio: 'inherit' }
     );
 
@@ -191,7 +220,7 @@ async function createReactScriptsApp(appName: string): Promise<any> {
 
 function logSpaced(args) {
   console.log('');
-  console.log(FgGreen, args);
+  console.log(LogColor, args);
   console.log('');
 }
 

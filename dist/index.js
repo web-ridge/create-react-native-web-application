@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const FgGreen = '\x1b[32m';
+const LogColor = '\x1b[32m';
 const { spawn } = require('child_process');
 const fs = require('fs-extra');
 const path = require('path');
@@ -27,8 +27,13 @@ app();
 function app() {
     return __awaiter(this, void 0, void 0, function* () {
         const appName = argv.name;
-        const appNameWeb = appName + '-web';
-        logSpaced(`Creating ${appName}`);
+        const appNameWeb = appName + '-web-will-be-deleted-afterwards';
+        logSpaced(`
+  Creating ${appName}, brought to you by webRidge.
+
+  Please wait till everything is finished :)
+  
+  `);
         try {
             yield Promise.all([
                 createReactNativeApp(appName),
@@ -50,62 +55,70 @@ function app() {
         const reactNativePackagePath = appName + '/package.json';
         const reactNativePackageFile = fs.readFileSync(reactNativePackagePath);
         const reactNativePackageJSON = JSON.parse(reactNativePackageFile);
-        const mergedPackageJSON = Object.assign(Object.assign(Object.assign({}, reactNativePackageJSON), excludeObjectKeys(webPackageJSON, ['dependencies', 'scripts'])), { scripts: Object.assign(Object.assign({}, reactNativePackageJSON.scripts), replaceValuesOfObject(prefixObject(webPackageJSON, 'web:'), 'react-app-scripts', 'react-app-rewired')) });
+        let webScripts = replaceValuesOfObject(prefixObject(webPackageJSON.scripts, 'web:'), 'react-scripts', 'react-app-rewired');
+        let webStartCommand = webScripts['web:start'];
+        delete webScripts['web:start'];
+        webScripts.web = webStartCommand;
+        console.log({ webScripts });
+        const mergedPackageJSON = Object.assign(Object.assign(Object.assign({}, reactNativePackageJSON), excludeObjectKeys(webPackageJSON, ['dependencies', 'scripts', 'name'])), { scripts: Object.assign(Object.assign({}, reactNativePackageJSON.scripts), webScripts) });
         fs.writeFileSync(reactNativePackagePath, JSON.stringify(mergedPackageJSON));
         yield installPackages([
             ...webDependencies,
             {
                 name: 'react-native-web',
-                version: 'latest',
-                isDev: false,
             },
             {
                 name: 'react-app-rewired',
-                version: 'latest',
                 isDev: true,
             },
             {
                 name: 'customize-cra',
-                version: 'latest',
                 isDev: true,
             },
             {
                 name: 'customize-cra-react-refresh',
-                version: 'latest',
                 isDev: true,
             },
             {
                 name: '@types/react',
-                version: 'latest',
                 isDev: true,
             },
-            { name: '@types/react-native', version: 'latest', isDev: true },
+            { name: '@types/react-native', isDev: true },
+            { name: 'typescript', isDev: true },
         ], appName);
         const templateDir = path.dirname(require.main.filename) + '/template';
         console.log({ templateDir });
         fs.copySync(templateDir, appName);
+        fs.copySync(appNameWeb + '/public', appName + '/public');
         fs.unlinkSync(appName + '/App.js');
         logSpaced("Yeah!! We're done!");
         logSpaced(`
-  Start your app with
-  
-        yarn android
-        yarn ios
-        yarn web
+  Start your app with by going to the created directory: 'cd ${appName}'
+
+    yarn android
+    yarn ios
+    yarn web
   `);
     });
 }
 function installPackages(packages, directory) {
     return __awaiter(this, void 0, void 0, function* () {
+        yield installPackagesAdvanced(packages.filter((package) => package.isDev === true), directory, true);
+        yield installPackagesAdvanced(packages.filter((package) => !package.isDev), directory, false);
+    });
+}
+function installPackagesAdvanced(packages, directory, dev) {
+    return __awaiter(this, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
+            const joinedPackages = packages.map((package) => package.name + (package.version ? `@${package.version}` : ``));
+            console.log({ joinedPackages });
             const createReactNativeProcess = spawn('yarn', [
                 '--cwd',
                 directory,
                 'add',
-                packages
-                    .map((package) => `${package.name}@${package.version}`)
-                    .join(' '),
-            ], { stdio: 'inherit' });
+                ...joinedPackages,
+                dev ? '--dev' : undefined,
+            ].filter((n) => !!n), { stdio: 'inherit' });
             createReactNativeProcess.on('error', function (error) {
                 reject(error);
             });
@@ -143,7 +156,7 @@ function createReactScriptsApp(appName) {
 }
 function logSpaced(args) {
     console.log('');
-    console.log(FgGreen, args);
+    console.log(LogColor, args);
     console.log('');
 }
 function excludeObjectKeys(object, ignoredKeys) {
