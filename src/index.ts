@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 interface PackageType {
   name: string;
   version?: string;
@@ -149,12 +150,12 @@ async function app() {
 
 async function installPackages(packages: PackageType[], directory: string) {
   await installPackagesAdvanced(
-    packages.filter((package) => package.isDev === true),
+    packages.filter((p) => p.isDev === true),
     directory,
     true
   );
   await installPackagesAdvanced(
-    packages.filter((package) => !package.isDev),
+    packages.filter((p) => !p.isDev),
     directory,
     false
   );
@@ -166,7 +167,7 @@ async function installPackagesAdvanced(
 ): Promise<any> {
   return new Promise((resolve, reject) => {
     const joinedPackages = packages.map(
-      (package) => package.name + (package.version ? `@${package.version}` : ``)
+      (p) => p.name + (p.version ? `@${p.version}` : ``)
     );
     console.log({ joinedPackages });
     const createReactNativeProcess = spawn(
