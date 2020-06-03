@@ -5,8 +5,8 @@ This package will help you in creating a React-Native app which runs on the web 
 
 With react-native-web you can share more than 90% of your app between Android, iOS and web. But you'll need to create some abstractions for some packages.
 
-Used library in background for web: https://github.com/facebook/create-react-app
-Used library for React-Native: React Native CLI
+Used library in background for web: https://github.com/facebook/create-react-app    
+Used library for React-Native: React Native CLI    
 
 ## Getting started
 
