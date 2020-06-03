@@ -90,8 +90,10 @@ function app() {
         const templateDir = path.dirname(require.main.filename) + '/template';
         console.log({ templateDir });
         fs.copySync(templateDir, appName);
+        fs.copySync(appNameWeb + '/src/serviceWorker.js', appName + '/src/serviceWorker.js');
         fs.copySync(appNameWeb + '/public', appName + '/public');
         fs.unlinkSync(appName + '/App.js');
+        fs.removeSync(appNameWeb);
         logSpaced("Yeah!! We're done!");
         logSpaced(`
   Start your app with by going to the created directory: 'cd ${appName}'
