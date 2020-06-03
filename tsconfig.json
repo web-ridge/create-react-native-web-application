@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "esnext",
     "declaration": true,
     "outDir": "./dist",
     "removeComments": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": true
   },
   "include": ["src/**/*"]
 }
