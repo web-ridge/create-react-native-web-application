@@ -118,6 +118,7 @@ async function app() {
       },
       { name: '@types/react-native', isDev: true },
       { name: 'typescript', isDev: true },
+      { name: 'babel-plugin-import', isDev: true },
     ],
     appName
   );
