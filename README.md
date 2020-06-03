@@ -14,7 +14,7 @@ Follow instructions on and click the 'React Native CLI Quickstart'
 https://reactnative.dev/docs/environment-setup
 
 ```
-npx create-react-native-web-application
+npx create-react-native-web-application --name myappname
 ```
 
 ## Commands
