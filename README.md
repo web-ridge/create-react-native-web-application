@@ -46,7 +46,7 @@ yarn web:eject
 
 ```
 project.ext.react = [
-enableHermes: false, // clean and rebuild if changing
+  enableHermes: false, // clean and rebuild if changing
 ]
 ```
 
@@ -54,7 +54,7 @@ to
 
 ```
 project.ext.react = [
-enableHermes: true, // clean and rebuild if changing
+  enableHermes: true, // clean and rebuild if changing
 ]
 ```
 
