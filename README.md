@@ -60,9 +60,13 @@ project.ext.react = [
 ]
 ```
 
-## How can I use really native packages but sometimes else on the web version
+## Install React Native Web packages which support web
 
-We can almost share a lot of things but we created some abstractions on top of e.g. React Native Navigation to have cross platform navigation while using react-router-dom on the web.
+You can add extra packages in `config-overrides.js` in the babelInclude plugin so react native packages will be compiled with babel.
+
+## Install React Native Web packages which do not support web
+
+We can almost share a lot of things but when a package does support the web you will need to create an abstraction and convert an interface to another package which does the same thing but for React JS or create your own abstraction.
 
 Create a file package-name.ts
 

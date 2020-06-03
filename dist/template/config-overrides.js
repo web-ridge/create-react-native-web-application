@@ -4,10 +4,10 @@ const {
   babelInclude,
   fixBabelImports,
   override,
-} = require('customize-cra')
-const { addReactRefresh } = require('customize-cra-react-refresh')
+} = require('customize-cra');
+const { addReactRefresh } = require('customize-cra-react-refresh');
 
-const path = require('path')
+const path = require('path');
 
 module.exports = override(
   addReactRefresh(),
@@ -26,4 +26,4 @@ module.exports = override(
 
     // any react-native modules you need babel to compile
   ])
-)
+);
