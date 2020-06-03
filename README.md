@@ -1,11 +1,11 @@
-This package will help you in creating a React-Native app which runs on the web with React Native Web while using the best tools of both worlds. You'll always be using the latest version of both libraries. This program only merges some configs to give you a fast start :)
+This package will help you in creating a React-Native app which runs on the web with React Native Web (used in the Twitter webapp) while using the best tools of both worlds. You'll always be using the latest version of both libraries. This program only merges some configs to give you a fast start :)
 
 This package will help you in creating a React-Native app which runs on the web with React Native Web while using the best tools of both worlds so you can have one codebase for Android, iOS and Web. Y
 
 With react-native-web you can share more than 90% of your app between Android, iOS and web. But you'll need to create some abstractions for some packages.
 
-Used library in background for web: https://github.com/facebook/create-react-app  
-Used library for React-Native: React Native CLI
+Used library in background for web: https://create-react-app.dev/
+Used library for React-Native: React Native CLI https://reactnative.dev/docs/environment-setup
 
 ## Getting started
 
@@ -83,5 +83,5 @@ import React from 'react';
 export function someLibraryFunc() {
   return webimplementation;
 }
-export default function Yourimplemenation() {}
+export default function YourImplemenation() {}
 ```
