@@ -1,7 +1,10 @@
 {
   "name": "create-react-native-web-application",
-  "version": "0.0.2",
-  "description": "react-ridge-state is a very simple global state management library for React and React Native",
+  "version": "0.0.4",
+  "bin": {
+    "create-react-native-web-application": "dist/index.js"
+  },
+  "description": "create-react-native-web-application is an easy way to get start with react-native-web",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/web-ridge/react-ridge-state",
