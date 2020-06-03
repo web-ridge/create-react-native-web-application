@@ -80,7 +80,7 @@ async function app() {
   //@ts-ignore
   webScripts.web = webStartCommand;
 
-  console.log({ webScripts });
+  // console.log({ webScripts });
 
   const mergedPackageJSON = {
     ...reactNativePackageJSON,
@@ -128,7 +128,7 @@ async function app() {
   // copy template files
 
   const templateDir = path.dirname(require.main.filename) + '/template';
-  console.log({ templateDir });
+  // console.log({ templateDir });
   fs.copySync(templateDir, appName);
   fs.copySync(
     appNameWeb + '/src/serviceWorker.js',
@@ -169,7 +169,7 @@ async function installPackagesAdvanced(
     const joinedPackages = packages.map(
       (p) => p.name + (p.version ? `@${p.version}` : ``)
     );
-    console.log({ joinedPackages });
+    // console.log({ joinedPackages });
     const createReactNativeProcess = spawn(
       'yarn',
       [

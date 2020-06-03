@@ -1,6 +1,6 @@
 {
   "name": "create-react-native-web-application",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "bin": {
     "create-react-native-web-application": "dist/index.js"
   },
