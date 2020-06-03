@@ -131,8 +131,8 @@ async function app() {
   // console.log({ templateDir });
   fs.copySync(templateDir, appName);
   fs.copyFileSync(
-    appNameWeb + '/src/serviceWorker.js',
-    appName + '/src/serviceWorker.js'
+    './' + appNameWeb + '/src/serviceWorker.js',
+    './' + appName + '/src/serviceWorker.js'
   );
   fs.copySync(appNameWeb + '/public', appName + '/public');
   fs.unlinkSync(appName + '/App.js');
