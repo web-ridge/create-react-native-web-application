@@ -11,25 +11,22 @@
   "license": "MIT",
   "readme": "README.md",
   "scripts": {
-      "type-check": "tsc --noEmit",
-      "type-check:watch": "npm run type-check -- --watch",
-      "build": "npm run build:types && npm run build:js",
-      "build:types": "tsc --emitDeclarationOnly",
-      "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline"
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "tsc"
+  },
+  "engines": {
+    "node": ">=12"
   },
   "dependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/node": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
     "fs-extra": "^9.0.0",
     "node-fs-extra": "^0.8.2",
     "yargs": "^15.3.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/preset-typescript": "^7.10.1",
-    "@types/node": "^14.0.9",
-    "typescript": "^3.9.3"
+    "@types/fs-extra": "^9.0.4",
+    "@types/node": "^14.14.9",
+    "@types/yargs": "^15.0.10",
+    "typescript": "^4.1.2"
   }
 }

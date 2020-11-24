@@ -1,7 +1,7 @@
 import { AppRegistry } from 'react-native';
 import App from './App';
 import './index.css';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorkerRegistration';
 
 AppRegistry.registerComponent('appName', () => App);
 

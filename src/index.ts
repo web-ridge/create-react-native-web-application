@@ -7,10 +7,12 @@ interface PackageType {
 }
 const LogColor = '\x1b[32m';
 
-const { spawn } = require('child_process');
-const fs = require('fs-extra');
-const path = require('path');
-const argv = require('yargs')
+import { spawn } from 'child_process';
+import fs from 'fs-extra';
+import path from 'path';
+import yargs from 'yargs';
+
+const argv = yargs
   .help()
   .option('name', {
     alias: 'n',
@@ -52,7 +54,7 @@ async function app() {
   );
 
   const webPackagePath = appNameWeb + '/package.json';
-  const webPackageFile = fs.readFileSync(webPackagePath);
+  const webPackageFile = fs.readFileSync(webPackagePath, 'utf8');
   const webPackageJSON = JSON.parse(webPackageFile);
 
   const webDependencies: PackageType[] = Object.keys(
@@ -60,11 +62,17 @@ async function app() {
   ).map((packageName) => ({
     name: packageName,
     version: webPackageJSON.dependencies[packageName],
-    isDev: false,
+    isDev:
+      packageName.includes('@types') ||
+      packageName.includes('@testing-library') ||
+      packageName === 'typescript',
   }));
 
   const reactNativePackagePath = appName + '/package.json';
-  const reactNativePackageFile = fs.readFileSync(reactNativePackagePath);
+  const reactNativePackageFile = fs.readFileSync(
+    reactNativePackagePath,
+    'utf8'
+  );
   const reactNativePackageJSON = JSON.parse(reactNativePackageFile);
 
   let webScripts = replaceValuesOfObject(
@@ -99,27 +107,10 @@ async function app() {
   await installPackages(
     [
       ...webDependencies,
-      {
-        name: 'react-native-web',
-      },
-      {
-        name: 'react-app-rewired',
-        isDev: true,
-      },
-      {
-        name: 'customize-cra',
-        isDev: true,
-      },
-      {
-        name: 'customize-cra-react-refresh',
-        isDev: true,
-      },
-      {
-        name: '@types/react',
-        isDev: true,
-      },
+      { name: 'react-native-web' },
+      { name: 'react-app-rewired', isDev: true },
+      { name: 'customize-cra', isDev: true },
       { name: '@types/react-native', isDev: true },
-      { name: 'typescript', isDev: true },
       { name: 'babel-plugin-import', isDev: true },
     ],
     appName
@@ -132,12 +123,29 @@ async function app() {
   fs.copySync(templateDir, appName);
 
   fs.copySync(
-    appNameWeb + '/src/serviceWorker.js',
-    appName + '/src/serviceWorker.js',
+    appNameWeb + '/src/reportWebVitals.ts',
+    appName + '/src/reportWebVitals.ts',
+    { overwrite: false }
+  );
+  fs.copySync(
+    appNameWeb + '/src/service-worker.ts',
+    appName + '/src/service-worker.ts',
+    { overwrite: false }
+  );
+  fs.copySync(
+    appNameWeb + '/src/serviceWorkerRegistration.ts',
+    appName + '/src/serviceWorkerRegistration.ts',
     { overwrite: false }
   );
   fs.copySync(appNameWeb + '/public', appName + '/public');
   fs.unlinkSync(appName + '/App.js');
+
+  const stream = fs.createWriteStream(appName + '/.gitignore', { flags: 'a' });
+  stream.write('\n');
+  stream.write('.eslintcache');
+  stream.write('\n');
+  stream.end();
+
   fs.removeSync(appNameWeb);
 
   logSpaced("Yeah!! We're done!");
@@ -214,7 +222,7 @@ async function createReactScriptsApp(appName: string): Promise<any> {
   return new Promise<any>(function (resolve, reject) {
     const createReactNativeProcess = spawn(
       'npx',
-      ['create-react-app', appName],
+      ['create-react-app', appName, '--template', 'pwa-typescript'],
       { stdio: 'inherit' }
     );
 

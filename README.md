@@ -1,7 +1,4 @@
-
-
-[![Demonstration of result of the app](http://img.youtube.com/vi/Pslo1WRpZz0/0.jpg)](https://www.youtube.com/watch?v=Pslo1WRpZz0 "Demonstration video")
-
+[![Demonstration of result of the app](http://img.youtube.com/vi/Pslo1WRpZz0/0.jpg)](https://www.youtube.com/watch?v=Pslo1WRpZz0 'Demonstration video')
 
 This package will help you in creating a React-Native app which runs on the web with React Native Web (used in the Twitter webapp: https://github.com/necolas/react-native-web) while using the best tools of both worlds. You'll always be using the latest version of both libraries. This program only merges some configs to give you a fast start and uses Typescript by default :)
 
@@ -49,6 +46,7 @@ yarn web:eject
 
 - Look up React Native Docs
 - Look up https://github.com/necolas/react-native-web
+- Enable Service Worker for an App-like experience on web https://create-react-app.dev/docs/making-a-progressive-web-app
 - Look for web support in React Native packages
 - Install the Prettier extension in Visual Code
 - Enable Hermes in build.gradle since it will give you a ~ 30% faster app on Android
