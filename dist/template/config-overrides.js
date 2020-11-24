@@ -5,12 +5,10 @@ const {
   fixBabelImports,
   override,
 } = require('customize-cra');
-const { addReactRefresh } = require('customize-cra-react-refresh');
 
 const path = require('path');
 
 module.exports = override(
-  addReactRefresh(),
   fixBabelImports('module-resolver', {
     alias: {
       '^react-native$': 'react-native-web',
