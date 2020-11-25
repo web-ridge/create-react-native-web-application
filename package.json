@@ -7,7 +7,7 @@
   "description": "create-react-native-web-application is an easy way to get start with react-native-web",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "homepage": "https://github.com/web-ridge/react-ridge-state",
+  "homepage": "https://github.com/web-ridge/create-react-native-web-application",
   "license": "MIT",
   "readme": "README.md",
   "scripts": {

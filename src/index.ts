@@ -112,6 +112,21 @@ async function app() {
       { name: 'customize-cra', isDev: true },
       { name: '@types/react-native', isDev: true },
       { name: 'babel-plugin-import', isDev: true },
+      {
+        name: '@react-native-community/eslint-config',
+        version: '2.0.0',
+        isDev: true,
+      },
+      {
+        name: 'metro-react-native-babel-preset',
+        version: '0.64.0',
+        isDev: true,
+      },
+      {
+        name: 'eslint',
+        version: '7.14.0',
+        isDev: true,
+      },
     ],
     appName
   );
@@ -140,11 +155,14 @@ async function app() {
   fs.copySync(appNameWeb + '/public', appName + '/public');
   fs.unlinkSync(appName + '/App.js');
 
-  const stream = fs.createWriteStream(appName + '/.gitignore', { flags: 'a' });
-  stream.write('\n');
-  stream.write('.eslintcache');
-  stream.write('\n');
-  stream.end();
+  // Add .eslintcache to gitignore.
+  const gitignore = fs.createWriteStream(appName + '/.gitignore', {
+    flags: 'a',
+  });
+  gitignore.write('\n');
+  gitignore.write('.eslintcache');
+  gitignore.write('\n');
+  gitignore.end();
 
   fs.removeSync(appNameWeb);
 

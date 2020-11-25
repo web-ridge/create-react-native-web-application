@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,7 @@ import AbstractionExample from './AbstractionExample';
 
 export default function App() {
   const { width } = useWindowDimensions();
-  const [backgroundColor, setState] = React.useState<string>('#1275e6');
+  const [backgroundColor, setState] = useState<string>('#1275e6');
   return (
     <>
       <StatusBar

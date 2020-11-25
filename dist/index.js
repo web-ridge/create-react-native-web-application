@@ -82,6 +82,21 @@ async function app() {
         { name: 'customize-cra', isDev: true },
         { name: '@types/react-native', isDev: true },
         { name: 'babel-plugin-import', isDev: true },
+        {
+            name: '@react-native-community/eslint-config',
+            version: '2.0.0',
+            isDev: true,
+        },
+        {
+            name: 'metro-react-native-babel-preset',
+            version: '0.64.0',
+            isDev: true,
+        },
+        {
+            name: 'eslint',
+            version: '7.14.0',
+            isDev: true,
+        },
     ], appName);
     // copy template files
     const templateDir = path_1.default.dirname(require.main.filename) + '/template';
@@ -92,11 +107,14 @@ async function app() {
     fs_extra_1.default.copySync(appNameWeb + '/src/serviceWorkerRegistration.ts', appName + '/src/serviceWorkerRegistration.ts', { overwrite: false });
     fs_extra_1.default.copySync(appNameWeb + '/public', appName + '/public');
     fs_extra_1.default.unlinkSync(appName + '/App.js');
-    const stream = fs_extra_1.default.createWriteStream(appName + '/.gitignore', { flags: 'a' });
-    stream.write('\n');
-    stream.write('.eslintcache');
-    stream.write('\n');
-    stream.end();
+    // Add .eslintcache to gitignore.
+    const gitignore = fs_extra_1.default.createWriteStream(appName + '/.gitignore', {
+        flags: 'a',
+    });
+    gitignore.write('\n');
+    gitignore.write('.eslintcache');
+    gitignore.write('\n');
+    gitignore.end();
     fs_extra_1.default.removeSync(appNameWeb);
     logSpaced("Yeah!! We're done!");
     logSpaced(`
