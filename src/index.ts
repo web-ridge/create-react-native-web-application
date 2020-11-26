@@ -57,16 +57,17 @@ async function app() {
   const webPackageFile = fs.readFileSync(webPackagePath, 'utf8');
   const webPackageJSON = JSON.parse(webPackageFile);
 
+  const removePackages = ['web-vitals'];
+
   const webDependencies: PackageType[] = Object.keys(
     webPackageJSON.dependencies
-  ).map((packageName) => ({
-    name: packageName,
-    version: webPackageJSON.dependencies[packageName],
-    isDev:
-      packageName.includes('@types') ||
-      packageName.includes('@testing-library') ||
-      packageName === 'typescript',
-  }));
+  )
+    .filter((packageName) => !removePackages.includes(packageName))
+    .map((packageName) => ({
+      name: packageName,
+      version: webPackageJSON.dependencies[packageName],
+      isDev: packageName.includes('@testing-library'),
+    }));
 
   const reactNativePackagePath = appName + '/package.json';
   const reactNativePackageFile = fs.readFileSync(
@@ -110,23 +111,10 @@ async function app() {
       { name: 'react-native-web' },
       { name: 'react-app-rewired', isDev: true },
       { name: 'customize-cra', isDev: true },
+      { name: 'typescript', isDev: true },
       { name: '@types/react-native', isDev: true },
+      { name: '@types/react', isDev: true },
       { name: 'babel-plugin-import', isDev: true },
-      {
-        name: '@react-native-community/eslint-config',
-        version: '2.0.0',
-        isDev: true,
-      },
-      {
-        name: 'metro-react-native-babel-preset',
-        version: '0.64.0',
-        isDev: true,
-      },
-      {
-        name: 'eslint',
-        version: '7.14.0',
-        isDev: true,
-      },
     ],
     appName
   );
@@ -137,32 +125,8 @@ async function app() {
   logSpaced({ templateDir });
   fs.copySync(templateDir, appName);
 
-  fs.copySync(
-    appNameWeb + '/src/reportWebVitals.ts',
-    appName + '/src/reportWebVitals.ts',
-    { overwrite: false }
-  );
-  fs.copySync(
-    appNameWeb + '/src/service-worker.ts',
-    appName + '/src/service-worker.ts',
-    { overwrite: false }
-  );
-  fs.copySync(
-    appNameWeb + '/src/serviceWorkerRegistration.ts',
-    appName + '/src/serviceWorkerRegistration.ts',
-    { overwrite: false }
-  );
   fs.copySync(appNameWeb + '/public', appName + '/public');
   fs.unlinkSync(appName + '/App.js');
-
-  // Add .eslintcache to gitignore.
-  const gitignore = fs.createWriteStream(appName + '/.gitignore', {
-    flags: 'a',
-  });
-  gitignore.write('\n');
-  gitignore.write('.eslintcache');
-  gitignore.write('\n');
-  gitignore.end();
 
   fs.removeSync(appNameWeb);
 
@@ -173,6 +137,9 @@ async function app() {
     yarn android
     yarn ios
     yarn web
+    
+    If you have an import error on App.tsx restart your app, it's a cache issue.
+    If you have red errors in VSCode read the README.md about this issue.
   `);
 }
 
@@ -240,7 +207,7 @@ async function createReactScriptsApp(appName: string): Promise<any> {
   return new Promise<any>(function (resolve, reject) {
     const createReactNativeProcess = spawn(
       'npx',
-      ['create-react-app', appName, '--template', 'pwa-typescript'],
+      ['create-react-app', appName],
       { stdio: 'inherit' }
     );
 

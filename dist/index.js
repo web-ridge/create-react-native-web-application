@@ -45,12 +45,13 @@ async function app() {
     const webPackagePath = appNameWeb + '/package.json';
     const webPackageFile = fs_extra_1.default.readFileSync(webPackagePath, 'utf8');
     const webPackageJSON = JSON.parse(webPackageFile);
-    const webDependencies = Object.keys(webPackageJSON.dependencies).map((packageName) => ({
+    const removePackages = ['web-vitals'];
+    const webDependencies = Object.keys(webPackageJSON.dependencies)
+        .filter((packageName) => !removePackages.includes(packageName))
+        .map((packageName) => ({
         name: packageName,
         version: webPackageJSON.dependencies[packageName],
-        isDev: packageName.includes('@types') ||
-            packageName.includes('@testing-library') ||
-            packageName === 'typescript',
+        isDev: packageName.includes('@testing-library'),
     }));
     const reactNativePackagePath = appName + '/package.json';
     const reactNativePackageFile = fs_extra_1.default.readFileSync(reactNativePackagePath, 'utf8');
@@ -80,41 +81,17 @@ async function app() {
         { name: 'react-native-web' },
         { name: 'react-app-rewired', isDev: true },
         { name: 'customize-cra', isDev: true },
+        { name: 'typescript', isDev: true },
         { name: '@types/react-native', isDev: true },
+        { name: '@types/react', isDev: true },
         { name: 'babel-plugin-import', isDev: true },
-        {
-            name: '@react-native-community/eslint-config',
-            version: '2.0.0',
-            isDev: true,
-        },
-        {
-            name: 'metro-react-native-babel-preset',
-            version: '0.64.0',
-            isDev: true,
-        },
-        {
-            name: 'eslint',
-            version: '7.14.0',
-            isDev: true,
-        },
     ], appName);
     // copy template files
     const templateDir = path_1.default.dirname(require.main.filename) + '/template';
     logSpaced({ templateDir });
     fs_extra_1.default.copySync(templateDir, appName);
-    fs_extra_1.default.copySync(appNameWeb + '/src/reportWebVitals.ts', appName + '/src/reportWebVitals.ts', { overwrite: false });
-    fs_extra_1.default.copySync(appNameWeb + '/src/service-worker.ts', appName + '/src/service-worker.ts', { overwrite: false });
-    fs_extra_1.default.copySync(appNameWeb + '/src/serviceWorkerRegistration.ts', appName + '/src/serviceWorkerRegistration.ts', { overwrite: false });
     fs_extra_1.default.copySync(appNameWeb + '/public', appName + '/public');
     fs_extra_1.default.unlinkSync(appName + '/App.js');
-    // Add .eslintcache to gitignore.
-    const gitignore = fs_extra_1.default.createWriteStream(appName + '/.gitignore', {
-        flags: 'a',
-    });
-    gitignore.write('\n');
-    gitignore.write('.eslintcache');
-    gitignore.write('\n');
-    gitignore.end();
     fs_extra_1.default.removeSync(appNameWeb);
     logSpaced("Yeah!! We're done!");
     logSpaced(`
@@ -161,7 +138,7 @@ async function createReactNativeApp(appName) {
 }
 async function createReactScriptsApp(appName) {
     return new Promise(function (resolve, reject) {
-        const createReactNativeProcess = child_process_1.spawn('npx', ['create-react-app', appName, '--template', 'pwa-typescript'], { stdio: 'inherit' });
+        const createReactNativeProcess = child_process_1.spawn('npx', ['create-react-app', appName], { stdio: 'inherit' });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
