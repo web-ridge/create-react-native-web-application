@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const LogColor = '\x1b[32m';
-const child_process_1 = require("child_process");
+const cross_spawn_1 = __importDefault(require("cross-spawn"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path_1 = __importDefault(require("path"));
 const yargs_1 = __importDefault(require("yargs"));
@@ -113,7 +113,7 @@ async function installPackagesAdvanced(packages, directory, dev) {
     return new Promise((resolve, reject) => {
         const joinedPackages = packages.map((p) => p.name + (p.version ? `@${p.version}` : ``));
         // console.log({ joinedPackages });
-        const createReactNativeProcess = child_process_1.spawn(spawnPlatform('yarn'), [
+        const createReactNativeProcess = cross_spawn_1.default('yarn', [
             '--cwd',
             directory,
             'add',
@@ -130,7 +130,7 @@ async function installPackagesAdvanced(packages, directory, dev) {
 }
 async function createReactNativeApp(appName) {
     return new Promise((resolve, reject) => {
-        const createReactNativeProcess = child_process_1.spawn(spawnPlatform('npx'), ['react-native', 'init', appName], { stdio: 'inherit', shell: true });
+        const createReactNativeProcess = cross_spawn_1.default('npx', ['react-native', 'init', appName], { stdio: 'inherit', shell: true });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
@@ -141,7 +141,7 @@ async function createReactNativeApp(appName) {
 }
 async function createReactScriptsApp(appName) {
     return new Promise(function (resolve, reject) {
-        const createReactNativeProcess = child_process_1.spawn(spawnPlatform('npx'), ['create-react-app', appName], { stdio: 'inherit', shell: true });
+        const createReactNativeProcess = cross_spawn_1.default('npx', ['create-react-app', appName], { stdio: 'inherit', shell: true });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
@@ -149,13 +149,6 @@ async function createReactScriptsApp(appName) {
             resolve(response);
         });
     });
-}
-function spawnPlatform(s) {
-    const isWin = process.platform === 'win32';
-    if (isWin) {
-        return s + '.cmd';
-    }
-    return s;
 }
 function logSpaced(args) {
     console.log('');

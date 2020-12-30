@@ -7,7 +7,8 @@ interface PackageType {
 }
 const LogColor = '\x1b[32m';
 
-import { spawn } from 'child_process';
+import spawn from 'cross-spawn';
+
 import fs from 'fs-extra';
 import path from 'path';
 import yargs from 'yargs';
@@ -166,7 +167,7 @@ async function installPackagesAdvanced(
     );
     // console.log({ joinedPackages });
     const createReactNativeProcess = spawn(
-      spawnPlatform('yarn'),
+      'yarn',
       [
         '--cwd',
         directory,
@@ -189,7 +190,7 @@ async function installPackagesAdvanced(
 async function createReactNativeApp(appName: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const createReactNativeProcess = spawn(
-      spawnPlatform('npx'),
+      'npx',
       ['react-native', 'init', appName],
       { stdio: 'inherit', shell: true }
     );
@@ -206,7 +207,7 @@ async function createReactNativeApp(appName: string): Promise<any> {
 async function createReactScriptsApp(appName: string): Promise<any> {
   return new Promise<any>(function (resolve, reject) {
     const createReactNativeProcess = spawn(
-      spawnPlatform('npx'),
+      'npx',
       ['create-react-app', appName],
       { stdio: 'inherit', shell: true }
     );
@@ -218,14 +219,6 @@ async function createReactScriptsApp(appName: string): Promise<any> {
       resolve(response);
     });
   });
-}
-
-function spawnPlatform(s: string): string {
-  const isWin = process.platform === 'win32';
-  if (isWin) {
-    return s + '.cmd';
-  }
-  return s;
 }
 
 function logSpaced(args) {
