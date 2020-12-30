@@ -119,7 +119,7 @@ async function installPackagesAdvanced(packages, directory, dev) {
             'add',
             ...joinedPackages,
             dev ? '--dev' : undefined,
-        ].filter((n) => !!n), { stdio: 'inherit' });
+        ].filter((n) => !!n), { stdio: 'inherit', shell: true });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
@@ -130,7 +130,7 @@ async function installPackagesAdvanced(packages, directory, dev) {
 }
 async function createReactNativeApp(appName) {
     return new Promise((resolve, reject) => {
-        const createReactNativeProcess = child_process_1.spawn('npx', ['react-native', 'init', appName], { stdio: 'inherit' });
+        const createReactNativeProcess = child_process_1.spawn('npx', ['react-native', 'init', appName], { stdio: 'inherit', shell: true });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
@@ -141,7 +141,7 @@ async function createReactNativeApp(appName) {
 }
 async function createReactScriptsApp(appName) {
     return new Promise(function (resolve, reject) {
-        const createReactNativeProcess = child_process_1.spawn('npx', ['create-react-app', appName], { stdio: 'inherit' });
+        const createReactNativeProcess = child_process_1.spawn('npx', ['create-react-app', appName], { stdio: 'inherit', shell: true });
         createReactNativeProcess.on('error', function (error) {
             reject(error);
         });
