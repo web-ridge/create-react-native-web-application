@@ -11,7 +11,8 @@ Used library for React-Native: React Native CLI https://reactnative.dev/docs/env
 
 ## Getting started
 
-You need to have React Native installed :) (Not Expo)  
+You need to have React Native installed :) (Not Expo) 
+You need to have yarn installed (feel free to make this configurable in a PR)
 Follow instructions on and click the 'React Native CLI Quickstart'  
 https://reactnative.dev/docs/environment-setup
 
