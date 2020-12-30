@@ -166,7 +166,7 @@ async function installPackagesAdvanced(
     );
     // console.log({ joinedPackages });
     const createReactNativeProcess = spawn(
-      'yarn',
+      spawnPlatform('yarn'),
       [
         '--cwd',
         directory,
@@ -189,7 +189,7 @@ async function installPackagesAdvanced(
 async function createReactNativeApp(appName: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const createReactNativeProcess = spawn(
-      'npx',
+      spawnPlatform('npx'),
       ['react-native', 'init', appName],
       { stdio: 'inherit', shell: true }
     );
@@ -206,7 +206,7 @@ async function createReactNativeApp(appName: string): Promise<any> {
 async function createReactScriptsApp(appName: string): Promise<any> {
   return new Promise<any>(function (resolve, reject) {
     const createReactNativeProcess = spawn(
-      'npx',
+      spawnPlatform('npx'),
       ['create-react-app', appName],
       { stdio: 'inherit', shell: true }
     );
@@ -220,14 +220,18 @@ async function createReactScriptsApp(appName: string): Promise<any> {
   });
 }
 
+function spawnPlatform(s: string): string {
+  const isWin = process.platform === 'win32';
+  if (isWin) {
+    return s + '.cmd';
+  }
+  return s;
+}
+
 function logSpaced(args) {
   console.log('');
   console.log(LogColor, args);
   console.log('');
-}
-
-function removeSuffix(str: string, suffix: string) {
-  return str.substring(0, str.indexOf(suffix));
 }
 
 function excludeObjectKeys(object: object, ignoredKeys: string[]): object {
